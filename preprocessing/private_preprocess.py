@@ -6,7 +6,7 @@ from _utils import get_encoding
 district_dict=get_districtCode()
 
 # 파일 경로
-fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/Access2Fit/data"
+fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/data"
 fname = "/raw_data/서울시 체력단련장업 인허가 정보.csv"
 result=get_encoding(fpath,fname) 
 df = pd.read_csv(fpath+fname, encoding=result['encoding'])
@@ -35,7 +35,7 @@ df['연도'] = df['인허가일자'].str.split('-').str[0]
 df = df[['자치구코드','자치구','연도','사업장명']]
 df = df.sort_values(by=['자치구코드','연도','사업장명'], ascending=[True,True,True])
 df.rename(columns={
-    '자치구코드': 'district_code',
+    '자치구코드': 'disctrict_code',
     '자치구': 'district',
     '연도': 'year',
     '사업장명': 'private_name',

@@ -6,7 +6,7 @@ from _utils import get_encoding
 district_dict=get_districtCode()
 
 #파일경로
-fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/Access2Fit/data"
+fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/data"
 fname = "/raw_data/서울시 공공체육시설 정보.csv"
 result=get_encoding(fpath,fname)
 df = pd.read_csv(fpath+fname, encoding=result['encoding'])

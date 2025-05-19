@@ -3,7 +3,7 @@ from _utils import get_encoding
 
 # 서울시 상권분석서비스(길단위인구-자치구) 기준으로 구 코드 맵핑하기 위함
 def get_districtCode():
-    fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/Access2Fit/data"
+    fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/data"
     fname = "/raw_data/서울시 상권분석서비스(길단위인구-자치구).csv"
     result=get_encoding(fpath,fname)    
     df = pd.read_csv(fpath+fname, encoding=result['encoding'])

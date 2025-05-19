@@ -2,7 +2,7 @@ import pandas as pd
 from _utils import get_encoding
 
 # 파일 경로
-fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/Access2Fit/data"
+fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/data"
 fname = "/raw_data/서울시 상권분석서비스(길단위인구-자치구).csv"
 
 result=get_encoding(fpath,fname)
