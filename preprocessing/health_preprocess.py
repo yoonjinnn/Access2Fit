@@ -6,7 +6,7 @@ from _utils import get_encoding
 district_dict=get_districtCode()
 
 # 파일 경로
-fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/data"
+fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/Access2Fit/data"
 fname = "/raw_data/지역사회+건강통계(건강행태).csv"
 result=get_encoding(fpath,fname) 
 # columns 설정될때 2018, 2019가 중복되니까 자동적으로 뒤에 2018.1, 2018.2 등 데이터가 자동으로 붙음
@@ -52,7 +52,7 @@ df['자치구코드'] = df['자치구'].map(district_dict)
 df = df[['자치구코드','자치구', '연도', '카테고리1','카테고리2','값']]
 df = df.sort_values(by=['자치구코드','연도','카테고리1'], ascending=[True,True,True])
 df.rename(columns={
-    '자치구코드': 'disctrict_code',
+    '자치구코드': 'district_code',
     '자치구': 'district',
     '연도': 'year',
     '카테고리1' : 'cat1',

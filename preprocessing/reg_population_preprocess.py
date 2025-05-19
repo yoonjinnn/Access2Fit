@@ -7,7 +7,7 @@ from _utils import get_encoding
 district_dict=get_districtCode()
 
 # 파일 경로
-fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/data"
+fpath = "C:/Users/yoonjin/DE6/4_DataWarehouse/project/Access2Fit/data"
 fname = "/raw_data/서울시 등록인구.csv"
 result=get_encoding(fpath,fname)
 
@@ -97,10 +97,13 @@ age_list = [
 df["연령코드"] = pd.Categorical(df["연령"], categories=age_list, ordered=True)
 df["연령코드"] = df["연령코드"].cat.codes + 1
 
+# 분기 데이터 제외
+df = df[df["연도"].astype(str).str.len() == 4]
+
 df = df[['자치구코드','자치구', '연도', '연령코드', '연령', '값']]
 df = df.sort_values(by=['자치구코드','연도','연령코드'], ascending=[True,True,True])
 df.rename(columns={
-    '자치구코드': 'disctrict_code',
+    '자치구코드': 'district_code',
     '자치구': 'district',
     '연도': 'year',
     '연령코드' : 'age_code',
