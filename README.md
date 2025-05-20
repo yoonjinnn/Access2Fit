@@ -1,7 +1,7 @@
-# 프로젝트 주제
+# ✅ 프로젝트 주제
 #### **서울시 운동 환경 지역 격차 분석 대시보드**
 - 목표:
-    - 서울시 자치구별 운동 관련 인프라와 건강지표(신체 활동률, 비만율 등)의 관계를 분석하고, **지역별 격차 요인을 시각적으로 파악**하여 인사이트 도출
+    - 서울시 자치구별 운동 관련 인프라와 건강지표(신체 활동률, 비만율 등)의 관계를 분석하고, **지역별 격차 요인을 시각적으로 파악**해 인사이트 도출
 - 프로젝트 기간: 2025.05.15.(목) ~ 2025.05.20.(화) 
 
 ## 프로젝트 소개
@@ -21,6 +21,26 @@
 - **Visualization**: Preset
 - **Collaboration**: Slack, GitHub, Notion, Zep
 
+### ⚙️ 데이터 아키텍처 흐름도
 
-##기술스택
-📊 주요 기능 (Features)
+### ⛓️ ERD
+![ERD 이미지](erd/erd.png)
+
+### 🔗 데이터 소스(원본 데이터)
+- 서울 열린데이터 광장
+    - 서울시 공공체육시설 정보
+        - https://data.seoul.go.kr/dataList/OA-21779/S/1/datasetView.do
+    - 서울시 체력단련장업 인허가 정보
+        - https://data.seoul.go.kr/dataList/OA-16142/S/1/datasetView.do 
+    - 서울시 상권분석서비스(길단위인구-자치구)
+        - https://data.seoul.go.kr/dataList/OA-22179/S/1/datasetView.do 
+    - 서울시 등록인구(연령별/동별) 통계
+        - https://data.seoul.go.kr/dataList/10718/S/2/datasetView.do
+    - 서울시 행정구역(구별) 통계
+        - https://data.seoul.go.kr/dataList/412/S/2/datasetView.do
+    - 서울시 따릉이대여소 마스터 정보
+        - https://data.seoul.go.kr/dataList/OA-21235/S/1/datasetView.do
+    - 서울시 지역사회 건강통계(건강행태) 통계
+        - https://data.seoul.go.kr/dataList/10649/S/2/datasetView.do
+
+
