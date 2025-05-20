@@ -22,6 +22,7 @@
 - **Collaboration**: Slack, GitHub, Notion, Zep
 
 ### ⚙️ 데이터 아키텍처 흐름도
+![데이터 아키텍처 흐름도](Data_Architecture_Flow.png)
 
 ### ⛓️ ERD
 ![ERD 이미지](erd/erd.png)
