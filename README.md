@@ -16,10 +16,7 @@
 3. 운동 환경 관련 요인 도출 및 정책적 시사점 제시
 
 ### 🛠️ 개발환경
-- **Data Processing**: Python, Pandas
-- **Data Storage**: Amazon S3, Amazon Redshift
-- **Visualization**: Preset
-- **Collaboration**: Slack, GitHub, Notion, Zep
+![개발환경](dev_tool.png)
 
 ### ⚙️ 데이터 아키텍처 흐름도
 ![데이터 아키텍처 흐름도](Data_Architecture_Flow.png)
