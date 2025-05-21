@@ -1,0 +1,205 @@
+!pip install SQLAlchemy==1.4.47
+!pip install ipython-sql==0.4.1
+%load_ext sql  
+
+// Redshift 접속 
+%sql postgresql://admin:<비밀번호>@<엔드포인트>:5439/dev
+
+//스키마 생성 
+%%sql
+CREATE SCHEMA 스키마 명;
+
+// 자치구 코드 및 이름 기본 정보 
+%%sql
+CREATE TABLE raw_data.basic_info (
+   district_code integer primary key ,
+   district_name varchar(32)
+);
+// CSV 데이터 복제 
+COPY raw_data.basic_info
+FROM 's3://yeanjun/usc/basic_info.csv'   //s3 주소 
+credentials 'aws_iam_role=arn:aws:iam::530512849971:role/redshift.read.s3'
+delimiter ',' dateformat 'auto' timeformat 'auto' IGNOREHEADER 1 removequotes;
+// 데이터 확인 
+%%sql
+SELECT * FROM raw_data.basic_info;
+
+// 자치구 연도별 면적 크기 
+%%sql
+CREATE TABLE raw_data.district_area (
+   id int IDENTITY(1,1) primary key,
+   district_code int,
+   district_name varchar(32),
+   year int,
+   area float,
+   FOREIGN KEY (district_code) REFERENCES raw_data.basic_info(district_code)
+);
+// CSV 데이터 복제 
+
+%%sql
+COPY raw_data.district_area (district_code, district_name, year, area)
+FROM 's3://yeanjun/usc/district_area.csv'
+CREDENTIALS 'aws_iam_role=arn:aws:iam::530512849971:role/redshift.read.s3'
+DELIMITER ','DATEFORMAT 'auto'TIMEFORMAT 'auto'IGNOREHEADER 1, REMOVEQUOTES;
+// 데이터 확인 
+%%sql
+SELECT * FROM raw_data.district_area limit 10;
+
+// 자치구 연도별 면적 크기
+%%sql
+CREATE TABLE raw_data.floating_population (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    year_code INT,
+     district_code INT,
+    district_name VARCHAR(32),
+    total BIGINT,
+    male BIGINT,
+    female BIGINT,
+    age_10 BIGINT,
+    age_20 BIGINT,
+    age_30 BIGINT,
+    age_40 BIGINT,
+    age_50 BIGINT,
+    age_60over BIGINT,
+    time_0006 BIGINT,
+    time_0611 BIGINT,
+    time_1114 BIGINT,
+    time_1417 BIGINT,
+    time_1721 BIGINT,
+    time_2124 BIGINT,
+    mon BIGINT,
+    tue BIGINT,
+    wed BIGINT,
+    thu BIGINT,
+    fri BIGINT,
+    sat BIGINT,
+    sun BIGINT,
+    FOREIGN KEY (district_code) REFERENCES raw_data.basic_info(district_code)
+);
+// CSV 데이터 복제 
+
+%%sql
+COPY raw_data.floating_population
+FROM 's3://yeanjun/usc/seoul_population.csv'
+CREDENTIALS 'aws_iam_role=arn:aws:iam::530512849971:role/redshift.read.s3'
+DELIMITER ','
+DATEFORMAT 'auto'
+TIMEFORMAT 'auto'
+IGNOREHEADER 1
+REMOVEQUOTES;
+// 데이터 확인 
+%%sql
+select * from raw_data.floating_population limit 10;
+
+// 자치구별 공공시설 수 
+%%sql
+CREATE TABLE raw_data.public_fitness (
+   id INT IDENTITY(1,1) PRIMARY KEY,
+   district_code INT,
+   district_name VARCHAR(64),
+   public_type VARCHAR(64),
+   public_name VARCHAR(128),
+   FOREIGN KEY (district_code) REFERENCES raw_data.basic_info(district_code)
+);
+// CSV 데이터 복제 
+COPY raw_data.public_fitness(district_code, district_name, public_type, public_name)
+FROM 's3://yeanjun/usc/seoul_public_clean.csv'
+CREDENTIALS 'aws_iam_role=arn:aws:iam::530512849971:role/redshift.read.s3'
+DELIMITER ','
+IGNOREHEADER 1
+REMOVEQUOTES;
+// 데이터 확인 
+%%sql
+SELECT * from raw_data.public_fitness limit 10;
+
+// 자치구별 민간시설 수 
+%%sql
+CREATE TABLE raw_data.private_fitness (
+   id INT IDENTITY(1,1) PRIMARY KEY,
+   district_code INT,
+   district_name VARCHAR(64),
+   private_name VARCHAR(128),
+   FOREIGN KEY (district_code) REFERENCES raw_data.basic_info(district_code)
+);
+// CSV 데이터 복제 
+COPY raw_data.private_fitness
+FROM 's3://yeanjun/usc/seoul_private_clean.csv'
+CREDENTIALS 'aws_iam_role=arn:aws:iam::530512849971:role/redshift.read.s3'
+DELIMITER ','
+IGNOREHEADER 1
+REMOVEQUOTES;
+// 데이터 확인 
+%%sql
+SELECT * from raw_data.private_fitness limit 10;
+
+// 자치구별 등록인구 수 
+%%sql
+CREATE TABLE raw_data.registered_population (
+   id INT IDENTITY(1,1) PRIMARY KEY,
+   district_code INT,
+   district_name VARCHAR(64),
+   year int,
+   age_code int,
+   age varchar(64),
+   population bigint,
+   FOREIGN KEY (district_code) REFERENCES raw_data.basic_info(district_code)
+);
+// CSV 데이터 복제 
+COPY raw_data.registered_population
+FROM 's3://yeanjun/usc/reg_population_clean.csv'
+CREDENTIALS 'aws_iam_role=arn:aws:iam::530512849971:role/redshift.read.s3'
+DELIMITER ','
+IGNOREHEADER 1
+REMOVEQUOTES;
+// 데이터 확인 
+%%sql
+SELECT * from raw_data.registered_population limit 10;
+
+
+// 자치구별 따릉이 수 
+%%sql
+CREATE TABLE raw_data.bike_station (
+   id INT IDENTITY(1,1) PRIMARY KEY,
+   district_code INT,
+   district_name VARCHAR(64),
+   station_id VARCHAR(64),
+   FOREIGN KEY (district_code) REFERENCES raw_data.basic_info(district_code)
+);
+// CSV 데이터 복제 
+COPY raw_data.bike_station
+FROM 's3://yeanjun/usc/bicycle_clean.csv'
+CREDENTIALS 'aws_iam_role=arn:aws:iam::530512849971:role/redshift.read.s3'
+DELIMITER ','
+IGNOREHEADER 1
+REMOVEQUOTES;
+// 데이터 확인 
+%%sql
+SELECT * from raw_data.bike_station limit 10;
+
+// 자치구별 건강지표
+%%sql
+CREATE TABLE raw_data.health_statistics (
+   id INT IDENTITY(1,1) PRIMARY KEY,
+   district_code INT,
+   district_name VARCHAR(64),
+   year int,
+   cat1 VARCHAR(128),
+   cat2 VARCHAR(128),
+   val float,
+   FOREIGN KEY (district_code) REFERENCES raw_data.basic_info(district_code)
+);
+// CSV 데이터 복제 
+COPY raw_data.health_statistics
+FROM 's3://yeanjun/usc/health_clean.csv'
+CREDENTIALS 'aws_iam_role=arn:aws:iam::530512849971:role/redshift.read.s3'
+DELIMITER ','
+IGNOREHEADER 1
+REMOVEQUOTES;
+// 데이터 확인 
+%%sql
+SELECT  * from raw_data.health_statistics
+where cat1 = '신체활동'
+
+
+
+
